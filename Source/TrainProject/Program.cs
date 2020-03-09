@@ -6,8 +6,9 @@ namespace TrainProject
 {
     class Program
     {
-        public static string trains = File.ReadAllLines("trains.txt").ToString();
+        public static string trains = File.ReadAllText("trains.txt");
         public static string[] a = trains.Split(",");
+
 
         static void Main(string[] args)
         {
