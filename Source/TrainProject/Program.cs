@@ -7,14 +7,20 @@ namespace TrainProject
 {
     class Program
     {
-        public static string trains = File.ReadAllText("trains.txt");
-        public static string[] a = trains.Split(",");
+        //public static [] string trains = File.ReadAllLines("trains.txt");
+        //public static string[] a = trains.Split(",");
+        
+       
+     
 
 
         static void Main(string[] args)
         {
-            Console.WriteLine(a[0].ToString());
-        }
+            string [] trains = File.ReadAllLines("trains.txt");
+            string[] stations = File.ReadAllLines("stations.txt");
+            var testTrain = new Train(trains);
+            var testStation = new Station(stations);
+        }   
     }
 
     interface IControlRoom
@@ -53,16 +59,21 @@ namespace TrainProject
             throw new NotImplementedException();
         }
     }
-    class Train
+    public class Train
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public int maxSpeed { get; set; }
-        public bool oprated { get; set; }
+        public int id { get; }
+        public string name { get; }
+        public int maxSpeed { get; }
+        public bool operated { get; }
 
-        
-
-
+        public Train(string [] a)
+        {
+            string[] convert = a[0].Split(",");
+            id = int.Parse(convert[0]);
+            name = convert[1];
+            maxSpeed = int.Parse(convert[2]);
+            operated = bool.Parse(convert[3]);    
+        }
     }
 
     class Switch
@@ -85,11 +96,19 @@ namespace TrainProject
         List<string> timeList = new List<string>();
     }
 
-    class Station
+   public class Station
     {
-        int id;
-        string stationName;
-        bool endStation;
+        public int id { get; }
+        public string stationName { get; }
+        public bool endStation { get; }
+
+        public Station(string [] stationArray)
+        {
+            string[] convert = stationArray[1].Split("|");
+            id = int.Parse(convert[0]);
+            stationName = convert[1];
+            endStation = bool.Parse(convert[2]);
+        }
     }
 
     class Passenger
