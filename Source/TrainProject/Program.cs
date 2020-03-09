@@ -7,9 +7,13 @@ namespace TrainProject
 {
     class Program
     {
+        public static string trains = File.ReadAllText("trains.txt");
+        public static string[] a = trains.Split(",");
+
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Console.WriteLine(a[0].ToString());
         }
     }
 
@@ -20,16 +24,45 @@ namespace TrainProject
         IControlRoom CloseGate();
         IControlRoom SetSwitch();
     }
-    class TrainPlaner
+
+    class TrainPlaner : IControlRoom
     {
 
+        public TrainPlaner(Object train)
+        {
+
+        }
+
+        public IControlRoom CloseGate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IControlRoom FollowSchedule()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IControlRoom OpenGate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IControlRoom SetSwitch()
+        {
+            throw new NotImplementedException();
+        }
     }
     class Train
     {
-        int id;
-        string name;
-        int maxSpeed;
-        bool oprated;
+        public int id { get; set; }
+        public string name { get; set; }
+        public int maxSpeed { get; set; }
+        public bool oprated { get; set; }
+
+        
+
+
     }
 
     class Switch
