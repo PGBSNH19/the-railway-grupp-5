@@ -7,19 +7,41 @@ namespace TrainProject
 {
     class Program
     {
-        //public static [] string trains = File.ReadAllLines("trains.txt");
+        //public static [] string trains = File.ReadAllText("trains.txt");
         //public static string[] a = trains.Split(",");
         
-       
-     
-
-
         static void Main(string[] args)
         {
             string [] trains = File.ReadAllLines("trains.txt");
             string[] stations = File.ReadAllLines("stations.txt");
+            string[] tidtabell = File.ReadAllLines("timetable.txt");
+
+            var tidTest = new Schedule(tidtabell);
             var testTrain = new Train(trains);
             var testStation = new Station(stations);
+            var timeTest = new TimeSpan(10, 30, 00);
+            var addMin = TimeSpan.FromMinutes(01);
+            
+
+            for(int i = 0; i <=40; i++) 
+            {
+                if (timeTest.ToString() == tidTest.arrivalTime.ToString())
+                {
+                    Console.WriteLine(timeTest.ToString() + " Tåget har anlänt till stationen");
+                }
+                else if(timeTest.ToString() == tidTest.departureTime.ToString())
+                {
+                    Console.WriteLine(timeTest.ToString() + " Tåget lämnar stationen");   
+                }
+                else
+                {
+                    Console.WriteLine(timeTest.ToString());
+                }
+
+                timeTest += addMin;
+                System.Threading.Thread.Sleep(500);
+
+            }
         }   
     }
 
@@ -88,12 +110,20 @@ namespace TrainProject
 
     class Schedule
     {
-        int traindId { get; set; }
-        int stationId { get; set; }
-        TimeSpan departureTime { get; set; }
-        TimeSpan arrivalTime { get; set; }
-
-        List<string> timeList = new List<string>();
+        public int traindId { get; }
+        public int stationId { get; }
+        public TimeSpan departureTime { get; }
+        public TimeSpan arrivalTime { get; }
+        
+        public Schedule (string [] scheduleArray)
+        {
+            string[] convert = scheduleArray[1].Split(",");
+            traindId = int.Parse(convert[0]);
+            stationId = int.Parse(convert[1]);
+            departureTime = TimeSpan.Parse(convert[2]);
+            arrivalTime = TimeSpan.Parse(convert[3]);
+            
+        }
     }
 
    public class Station
