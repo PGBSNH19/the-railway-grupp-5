@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace TrainProject
 {
@@ -37,5 +39,12 @@ namespace TrainProject
         int stationId { get; set; }
         TimeSpan departureTime { get; set; }
         TimeSpan arrivalTime { get; set; }
+
+        List<string> timeList = new List<string>();
+
+        string[] reader = File.ReadAllLines(@)
+
+    }
+
     }
 }
