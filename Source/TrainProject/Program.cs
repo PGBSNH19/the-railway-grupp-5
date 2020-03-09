@@ -12,20 +12,28 @@ namespace TrainProject
         }
     }
 
+    interface IControlRoom
+    {
+        IControlRoom FollowSchedule();
+        IControlRoom OpenGate();
+        IControlRoom CloseGate();
+        IControlRoom SetSwitch();
+    }
+    class TrainPlaner
+    {
+
+    }
     class Train
     {
-        int id = 0;
+        int id;
         string name;
-        int maxSpeed = 0;
+        int maxSpeed;
         bool oprated;
-
-
     }
 
     class Switch
     {
         bool turnRight;
-
     }
 
     class LevelCrossing
@@ -41,10 +49,19 @@ namespace TrainProject
         TimeSpan arrivalTime { get; set; }
 
         List<string> timeList = new List<string>();
-
-        string[] reader = File.ReadAllLines(@)
-
     }
 
+    class Station
+    {
+        int id;
+        string stationName;
+        bool endStation;
     }
+
+    class Passenger
+    {
+        int id;
+        string name;
+    }
+    
 }
