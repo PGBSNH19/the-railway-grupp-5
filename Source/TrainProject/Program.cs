@@ -40,7 +40,6 @@ namespace TrainProject
 
                 timeTest += addMin;
                 System.Threading.Thread.Sleep(500);
-
             }
         }   
     }
@@ -53,12 +52,21 @@ namespace TrainProject
         IControlRoom SetSwitch();
     }
 
-    class TrainPlaner : IControlRoom
+    public class TrainPlaner : IControlRoom
     {
-
-        public TrainPlaner(Object train)
+        public IList<Schedule> trainSchedules {get; }
+        public IList<Station> trainStations {get; }
+        public TrainPlaner(Train train)
         {
-
+            string[] tidtabell = File.ReadAllLines("timetable.txt");
+            for(int i = 1; i < tidtabell.Length; i++)
+            {
+                var test = new Train(tidtabell[i]);
+                if(test.id = train.id)
+                {
+                    trainSchedules.Add(test);
+                }
+            }
         }
 
         public IControlRoom CloseGate()
@@ -88,9 +96,9 @@ namespace TrainProject
         public int maxSpeed { get; }
         public bool operated { get; }
 
-        public Train(string [] a)
+        public Train(string [] trainArray)
         {
-            string[] convert = a[0].Split(",");
+            string[] convert = trainArray[0].Split(",");
             id = int.Parse(convert[0]);
             name = convert[1];
             maxSpeed = int.Parse(convert[2]);
@@ -108,7 +116,7 @@ namespace TrainProject
         bool open;
     }
 
-    class Schedule
+    public class Schedule
     {
         public int traindId { get; }
         public int stationId { get; }
