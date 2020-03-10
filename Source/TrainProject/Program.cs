@@ -16,31 +16,33 @@ namespace TrainProject
             string[] stations = File.ReadAllLines("stations.txt");
             string[] tidtabell = File.ReadAllLines("timetable.txt");
 
-            var tidTest = new Schedule(tidtabell);
+            //var tidTest = new Schedule(tidtabell);
             var testTrain = new Train(trains);
-            var testStation = new Station(stations);
-            var timeTest = new TimeSpan(10, 30, 00);
-            var addMin = TimeSpan.FromMinutes(01);
+
+            var trainPlanerTest = new TrainPlaner(testTrain);
+            //var testStation = new Station(stations);
+            //var timeTest = new TimeSpan(10, 30, 00);
+            //var addMin = TimeSpan.FromMinutes(01);
             
 
-            for(int i = 0; i <=40; i++) 
-            {
-                if (timeTest.ToString() == tidTest.arrivalTime.ToString())
-                {
-                    Console.WriteLine(timeTest.ToString() + " Tåget har anlänt till stationen");
-                }
-                else if(timeTest.ToString() == tidTest.departureTime.ToString())
-                {
-                    Console.WriteLine(timeTest.ToString() + " Tåget lämnar stationen");   
-                }
-                else
-                {
-                    Console.WriteLine(timeTest.ToString());
-                }
+            //for(int i = 0; i <=40; i++) 
+            //{
+            //    if (timeTest.ToString() == tidTest.arrivalTime.ToString())
+            //    {
+            //        Console.WriteLine(timeTest.ToString() + " Tåget har anlänt till stationen");
+            //    }
+            //    else if(timeTest.ToString() == tidTest.departureTime.ToString())
+            //    {
+            //        Console.WriteLine(timeTest.ToString() + " Tåget lämnar stationen");   
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine(timeTest.ToString());
+            //    }
 
-                timeTest += addMin;
-                System.Threading.Thread.Sleep(500);
-            }
+            //    timeTest += addMin;
+            //    System.Threading.Thread.Sleep(500);
+            //}
         }   
     }
 
@@ -52,42 +54,45 @@ namespace TrainProject
         IControlRoom SetSwitch();
     }
 
-    public class TrainPlaner : IControlRoom
+    public class TrainPlaner 
     {
-        public IList<Schedule> trainSchedules {get; }
-        public IList<Station> trainStations {get; }
+        public List<Schedule> trainSchedules = new List<Schedule>();
+        public List<Station> trainStations { get; }
         public TrainPlaner(Train train)
         {
+
             string[] tidtabell = File.ReadAllLines("timetable.txt");
-            for(int i = 1; i < tidtabell.Length; i++)
+            for (int i = 0; i < tidtabell.Length; i++)
             {
-                var test = new Train(tidtabell[i]);
-                if(test.id = train.id)
+                string[] convert = tidtabell[i].Split(",");
+                var test = new Schedule(convert);
+                if (test.traindId == train.id)
                 {
                     trainSchedules.Add(test);
                 }
             }
         }
 
-        public IControlRoom CloseGate()
-        {
-            throw new NotImplementedException();
-        }
+        //public IControlRoom CloseGate()
+        //{
+        //    throw new NotImplementedException();
+           
+        //}
 
-        public IControlRoom FollowSchedule()
-        {
-            throw new NotImplementedException();
-        }
+        //public IControlRoom FollowSchedule()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public IControlRoom OpenGate()
-        {
-            throw new NotImplementedException();
-        }
+        //public IControlRoom OpenGate()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public IControlRoom SetSwitch()
-        {
-            throw new NotImplementedException();
-        }
+        //public IControlRoom SetSwitch()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
     public class Train
     {
@@ -96,9 +101,9 @@ namespace TrainProject
         public int maxSpeed { get; }
         public bool operated { get; }
 
-        public Train(string [] trainArray)
+        public Train(string[] trainArray)
         {
-            string[] convert = trainArray[0].Split(",");
+            string[] convert = trainArray[1].Split(",");
             id = int.Parse(convert[0]);
             name = convert[1];
             maxSpeed = int.Parse(convert[2]);
@@ -125,11 +130,25 @@ namespace TrainProject
         
         public Schedule (string [] scheduleArray)
         {
-            string[] convert = scheduleArray[1].Split(",");
-            traindId = int.Parse(convert[0]);
-            stationId = int.Parse(convert[1]);
-            departureTime = TimeSpan.Parse(convert[2]);
-            arrivalTime = TimeSpan.Parse(convert[3]);
+            //string[] convert = scheduleArray[1].Split(",");
+            traindId = int.Parse(scheduleArray[0]);
+            stationId = int.Parse(scheduleArray[1]);
+            try {
+                departureTime = TimeSpan.Parse(scheduleArray[2]);
+            }
+            catch
+            {
+                
+            }
+            try
+            {
+                arrivalTime = TimeSpan.Parse(scheduleArray[3]);
+            }
+            catch
+            {
+                
+            }
+            
             
         }
     }
