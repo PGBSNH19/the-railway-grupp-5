@@ -7,36 +7,34 @@ namespace TrainProject
 {
     class Program
     {
-        
-
         public const string ProductFilePath = "timetable.txt";
         public const string TrainFilePath = "trains.txt";
+        public const string StationFilePath = "stations.txt";
+
 
 
         static void Main(string[] args)
         {
-
              List<Schedule> scheduleList;
              ScheduleList p = new ScheduleList();
              scheduleList = p.InitAvailableSchedule();
+            var jaja = scheduleList;
 
 
             List<Train> trainList;
             TrainList promp = new TrainList();
-
             trainList = promp.InitAvailableTrain();
-            var jaja = scheduleList;
 
 
             List<Station> stationList;
-            StationList promp = new StationList();
-
-            stationList = promp.InitAvailableStations();
+            StationList SList = new StationList();
+            stationList = SList.InitAvailableStations();
             var stationTest = stationList;
+
         }
     }
 
-    interface IControlRoom
+    public interface IControlRoom
     {
         IControlRoom FollowSchedule();
         IControlRoom OpenGate();
@@ -44,7 +42,7 @@ namespace TrainProject
         IControlRoom SetSwitch();
     }
 
-    public class TrainPlaner
+    public class TrainPlaner : IControlRoom
     {
         public List<Schedule> trainSchedules = new List<Schedule>();
         public List<Station> trainStations { get; }
@@ -63,26 +61,26 @@ namespace TrainProject
             //}
         }
 
-        //public IControlRoom CloseGate()
-        //{
-        //    throw new NotImplementedException();
+        public IControlRoom CloseGate()
+        {
+            return this;
 
-        //}
+        }
 
-        //public IControlRoom FollowSchedule()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public IControlRoom FollowSchedule()
+        {
+            return this;
+        }
 
-        //public IControlRoom OpenGate()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public IControlRoom OpenGate()
+        {
+            return this;
+        }
 
-        //public IControlRoom SetSwitch()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public IControlRoom SetSwitch()
+        {
+            return this;
+        }
     }
     public class Train
     {
@@ -206,7 +204,7 @@ namespace TrainProject
 
         public Station(string list)
         {
-            string[] convert = list.Split(";");
+            string[] convert = list.Split("|");
 
             id = int.Parse(convert[0]);
             stationName = convert[1];
@@ -220,7 +218,7 @@ namespace TrainProject
         {
             List<Station> AllStations = new List<Station>();
 
-            string[] station = File.ReadAllLines("Station.txt");
+            string[] station = File.ReadAllLines(Program.StationFilePath);
 
             foreach (string item in station)
             {
