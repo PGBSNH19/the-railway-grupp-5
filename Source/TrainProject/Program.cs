@@ -9,12 +9,20 @@ namespace TrainProject
     {
         //public static [] string trains = File.ReadAllText("trains.txt");
         //public static string[] a = trains.Split(",");
-        
+
+        public const string ProductFilePath = "timetable.txt";
+
+
         static void Main(string[] args)
         {
-            string [] trains = File.ReadAllLines("trains.txt");
+            string[] trains = File.ReadAllLines("trains.txt");
             string[] stations = File.ReadAllLines("stations.txt");
-            string[] tidtabell = File.ReadAllLines("timetable.txt");
+
+             List<Schedule> detta;
+        ScheduleList p = new ScheduleList();
+        detta = p.InitAvailableSchedule();
+
+            var jaja = detta;
 
             //var tidTest = new Schedule(tidtabell);
             var testTrain = new Train(trains);
@@ -23,7 +31,7 @@ namespace TrainProject
             //var testStation = new Station(stations);
             //var timeTest = new TimeSpan(10, 30, 00);
             //var addMin = TimeSpan.FromMinutes(01);
-            
+
 
             //for(int i = 0; i <=40; i++) 
             //{
@@ -43,7 +51,7 @@ namespace TrainProject
             //    timeTest += addMin;
             //    System.Threading.Thread.Sleep(500);
             //}
-        }   
+        }
     }
 
     interface IControlRoom
@@ -54,29 +62,29 @@ namespace TrainProject
         IControlRoom SetSwitch();
     }
 
-    public class TrainPlaner 
+    public class TrainPlaner
     {
         public List<Schedule> trainSchedules = new List<Schedule>();
         public List<Station> trainStations { get; }
         public TrainPlaner(Train train)
         {
 
-            string[] tidtabell = File.ReadAllLines("timetable.txt");
-            for (int i = 0; i < tidtabell.Length; i++)
-            {
-                string[] convert = tidtabell[i].Split(",");
-                var test = new Schedule(convert);
-                if (test.traindId == train.id)
-                {
-                    trainSchedules.Add(test);
-                }
-            }
+            //string[] tidtabell = File.ReadAllLines("timetable.txt");
+            //for (int i = 0; i < tidtabell.Length; i++)
+            //{
+            //    string[] convert = tidtabell[i].Split(",");
+            //    var test = new Schedule(convert);
+            //    if (test.traindId == train.id)
+            //    {
+            //        trainSchedules.Add(test);
+            //    }
+            //}
         }
 
         //public IControlRoom CloseGate()
         //{
         //    throw new NotImplementedException();
-           
+
         //}
 
         //public IControlRoom FollowSchedule()
@@ -107,7 +115,7 @@ namespace TrainProject
             id = int.Parse(convert[0]);
             name = convert[1];
             maxSpeed = int.Parse(convert[2]);
-            operated = bool.Parse(convert[3]);    
+            operated = bool.Parse(convert[3]);
         }
     }
 
@@ -126,40 +134,65 @@ namespace TrainProject
         public int traindId { get; }
         public int stationId { get; }
         public TimeSpan departureTime { get; }
-        public TimeSpan arrivalTime { get; }
-        
-        public Schedule (string [] scheduleArray)
+        public TimeSpan arrivalTime
         {
-            //string[] convert = scheduleArray[1].Split(",");
-            traindId = int.Parse(scheduleArray[0]);
-            stationId = int.Parse(scheduleArray[1]);
-            try {
-                departureTime = TimeSpan.Parse(scheduleArray[2]);
-            }
-            catch
+            get;
+        }
+
+
+        public Schedule(string list)
+        {
+
+            string[] part = list.Split(',');
+
+            traindId = int.Parse(part[0]);
+            stationId = int.Parse(part[1]);
+            if (string.IsNullOrEmpty(part[2]))
             {
-                
+                departureTime = TimeSpan.Parse("00:00");
             }
-            try
+            else
             {
-                arrivalTime = TimeSpan.Parse(scheduleArray[3]);
+                departureTime = TimeSpan.Parse(part[2]);
+
             }
-            catch
+            if (string.IsNullOrEmpty(null))
             {
-                
+                arrivalTime = TimeSpan.Parse("00:00");
             }
-            
-            
+            else
+            {
+            arrivalTime = TimeSpan.Parse(part[3]);
+
+            }
+
         }
     }
 
-   public class Station
+    public class ScheduleList
+    {
+        public List<Schedule> InitAvailableSchedule()
+        {
+            List<Schedule> AvailableSchedule = new List<Schedule>();
+            string[] tidtabell = File.ReadAllLines(Program.ProductFilePath);
+
+            foreach (string item in tidtabell)
+            {
+                AvailableSchedule.Add(new Schedule(item));
+
+            }
+
+            return AvailableSchedule;
+        }
+    }
+
+    public class Station
     {
         public int id { get; }
         public string stationName { get; }
         public bool endStation { get; }
 
-        public Station(string [] stationArray)
+        public Station(string[] stationArray)
         {
             string[] convert = stationArray[1].Split("|");
             id = int.Parse(convert[0]);
@@ -173,5 +206,4 @@ namespace TrainProject
         int id;
         string name;
     }
-    
 }
