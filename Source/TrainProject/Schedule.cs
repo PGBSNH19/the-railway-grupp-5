@@ -1,4 +1,9 @@
-﻿namespace TrainProject
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.IO;
+
+namespace TrainProject
 {
     public class Schedule
     {
@@ -16,6 +21,22 @@
             stationId = int.Parse(part[1]);
             departureTime = part[2];
             arrivalTime = part[3];       
+        }
+    }
+
+    public class ScheduleList
+    {
+        public List<Schedule> InitAvailableSchedule()
+        {
+            List<Schedule> AvailableSchedule = new List<Schedule>();
+            string[] tidtabell = File.ReadAllLines(Program.ProductFilePath);
+
+            foreach (string item in tidtabell)
+            {
+                AvailableSchedule.Add(new Schedule(item));
+            }
+
+            return AvailableSchedule;
         }
     }
 }
