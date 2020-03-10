@@ -20,11 +20,19 @@ namespace TrainProject
              ScheduleList p = new ScheduleList();
              scheduleList = p.InitAvailableSchedule();
 
+
             List<Train> trainList;
             TrainList promp = new TrainList();
 
             trainList = promp.InitAvailableTrain();
-            var jaja = scheduleList; 
+            var jaja = scheduleList;
+
+
+            List<Station> stationList;
+            StationList promp = new StationList();
+
+            stationList = promp.InitAvailableStations();
+            var stationTest = stationList;
         }
     }
 
@@ -196,12 +204,30 @@ namespace TrainProject
         public string stationName { get; }
         public bool endStation { get; }
 
-        public Station(string[] stationArray)
+        public Station(string list)
         {
-            string[] convert = stationArray[1].Split("|");
+            string[] convert = list.Split(";");
+
             id = int.Parse(convert[0]);
             stationName = convert[1];
             endStation = bool.Parse(convert[2]);
+        }
+    }
+
+    class StationList
+    {
+        public List<Station> InitAvailableStations()
+        {
+            List<Station> AllStations = new List<Station>();
+
+            string[] station = File.ReadAllLines("Station.txt");
+
+            foreach (string item in station)
+            {
+                AllStations.Add(new Station(item));
+            }
+            return AllStations;
+
         }
     }
 
