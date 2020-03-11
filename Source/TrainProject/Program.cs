@@ -10,7 +10,7 @@ namespace TrainProject
         public const string ProductFilePath = "timetable.txt";
         public const string TrainFilePath = "trains.txt";
         public const string StationFilePath = "stations.txt";
-
+        public const string PassengersFilePath = "passengers.txt";
 
 
         static void Main(string[] args)
@@ -27,6 +27,7 @@ namespace TrainProject
 
 
             List<Station> stationList;
+
             StationList SList = new StationList();
             stationList = SList.InitAvailableStations();
             var stationTest = stationList;
@@ -95,9 +96,5 @@ namespace TrainProject
 
  
 
-    class Passenger
-    {
-        int id;
-        string name;
-    }
+  
 }
