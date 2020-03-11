@@ -93,22 +93,7 @@ namespace TrainProject
         bool open;
     }
 
-    class StationList
-    {
-        public List<Station> InitAvailableStations()
-        {
-            List<Station> AllStations = new List<Station>();
-
-            string[] station = File.ReadAllLines(Program.StationFilePath);
-
-            foreach (string item in station)
-            {
-                AllStations.Add(new Station(item));
-            }
-            return AllStations;
-
-        }
-    }
+ 
 
     class Passenger
     {
