@@ -81,9 +81,6 @@ namespace TrainProject
             Train train { get; }
             List<Schedule> trainSchedules { get; set; }
             IControlRoom FollowSchedule(List<Schedule> schedules);
-
-
-
         }
 
         public class TrainPlaner : IControlRoom
