@@ -9,7 +9,7 @@ namespace TrainProject
     {
         public int traindId { get; }
         public int stationId { get; }
-        public string departureTime { get; }
+        public string departureTime { get; set; }
         public string arrivalTime{ get;   }
 
 

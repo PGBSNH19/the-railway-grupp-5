@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace TrainProject
 {
@@ -15,17 +16,16 @@ namespace TrainProject
         public static List<Schedule> scheduleList;
         public static List<Train> trainList;
         public static List<Station> stationList;
+        public static TrainPlaner trainPlaner;
+        public static TimeSpan timer;
 
 
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
+            ScheduleList p = new ScheduleList();
+            scheduleList = p.InitAvailableSchedule();
             
-             ScheduleList p = new ScheduleList();
-             Program.scheduleList = p.InitAvailableSchedule();
-            var jaja = scheduleList;
-
-
             TrainList promp = new TrainList();
             trainList = promp.InitAvailableTrain();
 
@@ -33,19 +33,40 @@ namespace TrainProject
 
             StationList SList = new StationList();
             stationList = SList.InitAvailableStations();
-            var stationTest = stationList;
+            
 
-            var train1 = new TrainPlaner(trainList, 2);
-            var train2 = new TrainPlaner(trainList, 3);
+            var train1 = new Train(trainList, 2);
+            var train2 = new Train(trainList, 3);
+            var trainPlaner = new TrainPlaner(train1).FollowSchedule(scheduleList);
+            Thread test = new Thread(Drive);
+            Console.WriteLine();
+            timer = new TimeSpan(10, 10, 00);
+            //test.Start();
+            
+        }
+
+        static void Drive()
+        {
+            TimeSpan addMin = TimeSpan.FromMinutes(1);
+
+            for (int i = 0; i < 200; i++)
+            {
+                Console.WriteLine(timer);
+                if (trainPlaner.trainSchedules[0].departureTime == timer.ToString())
+                {
+                    Console.WriteLine("Train leaving");
+                }
+                timer += addMin;
+                Thread.Sleep(250);
+            }    
         }
     }
 
     public interface IControlRoom
     {
-        IControlRoom FollowSchedule();
-        IControlRoom OpenGate();
-        IControlRoom CloseGate();
-        IControlRoom SetSwitch();
+        IControlRoom FollowSchedule(List<Schedule> schedules);
+        
+        
     }
 
     public class TrainPlaner : IControlRoom
@@ -55,37 +76,18 @@ namespace TrainProject
             get;
         }
         public List<Schedule> trainSchedules = new List<Schedule>();
-        public TrainPlaner(List<Train> trainList, int check)
+        public TrainPlaner(Train train)
         {
-            foreach (var item in trainList)
-            {
-                if (item.id == check)
-                {
-                    train = item;
-                }
-            }
+            this.train = train;
         }
-
-        public IControlRoom CloseGate()
+        public IControlRoom FollowSchedule(List<Schedule> schedules)
         {
-            return this;
-
-        }
-
-        public IControlRoom FollowSchedule()
-        {
+            trainSchedules = schedules.Where(x => x.traindId == train.id).ToList();
             return this;
         }
 
-        public IControlRoom OpenGate()
-        {
-            return this;
-        }
-
-        public IControlRoom SetSwitch()
-        {
-            return this;
-        }
+        
+      
     }
 
     class Switch

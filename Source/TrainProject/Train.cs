@@ -20,6 +20,22 @@ namespace TrainProject
             maxSpeed = int.Parse(convert[2]);
             operated = bool.Parse(convert[3]);
         }
+
+        public Train (List<Train> trainList, int check)
+        {
+            foreach (var item in trainList)
+            {
+                if (item.id == check)
+                {
+                    id = item.id;
+                    name = item.name;
+                    maxSpeed = item.maxSpeed;
+                    operated = item.operated;
+                }
+            }
+        }
+
+        
     }
 
     public class TrainList
