@@ -2,36 +2,41 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Linq;
 
 namespace TrainProject
 {
-    class Program
+    public class Program
     {
         public const string ProductFilePath = "timetable.txt";
         public const string TrainFilePath = "trains.txt";
         public const string StationFilePath = "stations.txt";
         public const string PassengersFilePath = "passengers.txt";
+        public static List<Schedule> scheduleList;
+        public static List<Train> trainList;
+        public static List<Station> stationList;
+
 
 
         static void Main(string[] args)
         {
-             List<Schedule> scheduleList;
+            
              ScheduleList p = new ScheduleList();
-             scheduleList = p.InitAvailableSchedule();
+             Program.scheduleList = p.InitAvailableSchedule();
             var jaja = scheduleList;
 
 
-            List<Train> trainList;
             TrainList promp = new TrainList();
             trainList = promp.InitAvailableTrain();
 
 
-            List<Station> stationList;
 
             StationList SList = new StationList();
             stationList = SList.InitAvailableStations();
             var stationTest = stationList;
 
+            var train1 = new TrainPlaner(trainList, 2);
+            var train2 = new TrainPlaner(trainList, 3);
         }
     }
 
@@ -45,21 +50,20 @@ namespace TrainProject
 
     public class TrainPlaner : IControlRoom
     {
-        public List<Schedule> trainSchedules = new List<Schedule>();
-        public List<Station> trainStations { get; }
-        public TrainPlaner(Train train)
+        public Train train 
         {
-
-            //string[] tidtabell = File.ReadAllLines("timetable.txt");
-            //for (int i = 0; i < tidtabell.Length; i++)
-            //{
-            //    string[] convert = tidtabell[i].Split(",");
-            //    var test = new Schedule(convert);
-            //    if (test.traindId == train.id)
-            //    {
-            //        trainSchedules.Add(test);
-            //    }
-            //}
+            get;
+        }
+        public List<Schedule> trainSchedules = new List<Schedule>();
+        public TrainPlaner(List<Train> trainList, int check)
+        {
+            foreach (var item in trainList)
+            {
+                if (item.id == check)
+                {
+                    train = item;
+                }
+            }
         }
 
         public IControlRoom CloseGate()
