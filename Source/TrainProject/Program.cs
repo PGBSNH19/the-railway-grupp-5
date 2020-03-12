@@ -17,9 +17,10 @@ namespace TrainProject
         public static List<Train> trainList;
         public static List<Station> stationList;
         public static TrainPlaner trainPlaner;
-        public static TimeSpan timer;
         public static CreateTrainPlaner createTrainPlaner;
         public static Thread test;
+        public static TimeSpan timer;
+        public static TimeSpan addMin;
 
         public static void Main(string[] args)
         {
@@ -37,43 +38,20 @@ namespace TrainProject
 
             var train1 = new Train(trainList, 2);
             var train2 = new Train(trainList, 3);
+
             var trainPlaner = new TrainPlaner(train1).FollowSchedule(scheduleList);
+
             createTrainPlaner = new CreateTrainPlaner(trainPlaner);
-            Console.WriteLine(createTrainPlaner.trainSchedules[0].departureTime);
-            TimeSpan addMin = TimeSpan.FromMinutes(1);
-            test = new Thread(Drive);
+            TrainThread trainT = new TrainThread();
+
+            addMin = TimeSpan.FromMinutes(1);
             timer = new TimeSpan(10, 10, 00);
+
+            test = new Thread(new ThreadStart(trainT.Drive));
             test.Start();
-            for (int i = 0; i < 200; i++)
-            {
-                Console.WriteLine(timer);
+            
 
-                timer += addMin;
-                Thread.Sleep(250);
-                if (createTrainPlaner.trainSchedules[2].arrivalTime + ":00" == timer.ToString())
-                {
-
-                    test.Abort();
-                }
-
-            }
-
-            static void Drive()
-            {
-                for (int i = 0; i < 200; i++)
-                {
-
-                    if (createTrainPlaner.trainSchedules[0].departureTime + ":00" == timer.ToString())
-                    {
-                        Console.WriteLine($"{createTrainPlaner.train.name} leaving station");
-                    }
-
-                    if (createTrainPlaner.trainSchedules[2].arrivalTime + ":00" == timer.ToString())
-                    {
-                        Console.WriteLine("Klar");
-                    }
-                }
-            }
+            
         }
 
         public interface IControlRoom
@@ -122,5 +100,29 @@ namespace TrainProject
 
     }
 
-  
+    public class TrainThread : Program
+    {
+        public void Drive()
+        {
+            for (int i = 0; i < 200; i++)
+            {
+                Console.WriteLine(timer);
+                Thread.Sleep(250);
+                timer += addMin;
+
+                if (createTrainPlaner.trainSchedules[0].departureTime == timer.ToString())
+                {
+                    Console.WriteLine($"{createTrainPlaner.train.name} leaving station");
+                }
+
+                if (createTrainPlaner.trainSchedules[2].arrivalTime == timer.ToString())
+                {
+                    Console.WriteLine("Klar");
+                }
+            }
+        }
+    }
+
+
+
 }
