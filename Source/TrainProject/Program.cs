@@ -9,10 +9,10 @@ namespace TrainProject
 {
     public class Program
     {
-        public const string ProductFilePath = "timetable.txt";
-        public const string TrainFilePath = "trains.txt";
-        public const string StationFilePath = "stations.txt";
-        public const string PassengersFilePath = "passengers.txt";
+        public const string ProductFilePath = (@"TextFiles\timetable.txt");
+        public const string TrainFilePath = (@"TextFiles\trains.txt");
+        public const string StationFilePath = (@"TextFiles\stations.txt");
+        public const string PassengersFilePath = (@"TextFiles\passengers.txt");
         public static List<Schedule> scheduleList;
         public static List<Train> trainList;
         public static List<Station> stationList;
