@@ -19,6 +19,7 @@ namespace TrainProject
 
         public static void Main(string[] args)
         {
+            
             ScheduleList p = new ScheduleList();
             scheduleList = p.InitAvailableSchedule();
 
@@ -31,17 +32,20 @@ namespace TrainProject
             var train1 = new Train(trainList, 2);
             var train2 = new Train(trainList, 3);
 
-            var trainPlaner = new TrainPlaner(train1).FollowSchedule(scheduleList);
+            var trainPlaner1 = new TrainPlaner(train1).FollowSchedule(scheduleList);
+            var trainPlaner2 = new TrainPlaner(train2).FollowSchedule(scheduleList);
 
-            CreateTrainPlaner testTrainPlaner = new CreateTrainPlaner(trainPlaner);
-            testTrainPlaner.trainThread = new Thread(() => testTrainPlaner.Drive(testTrainPlaner));
+            CreateTrainPlaner testTrainPlaner1 = new CreateTrainPlaner(trainPlaner1);
+            testTrainPlaner1.trainThread = new Thread(() => testTrainPlaner1.Drive(testTrainPlaner1));
 
-            CreateTrainPlaner newTest = new CreateTrainPlaner(trainPlaner);
-            newTest.trainThread = new Thread(() => newTest.Drive(newTest));
-            newTest.trainThread.Start();
+            CreateTrainPlaner testTrainPlaner2 = new CreateTrainPlaner(trainPlaner2);
+            testTrainPlaner2.trainThread = new Thread(() => testTrainPlaner2.Drive(testTrainPlaner2));
+            testTrainPlaner2.trainThread.Start();
+            testTrainPlaner1.trainThread.Start();
+            
             TimeSpan addMin = TimeSpan.FromMinutes(1);
-            timer = new TimeSpan(10, 10, 00);
-            for(int i = 0; i< 50; i++)
+            timer = new TimeSpan(10, 15, 00);
+            for(int i = 0; i< 62; i++)
             {
                 Console.WriteLine(timer);
                 timer += addMin;
@@ -89,17 +93,34 @@ namespace TrainProject
             public void Drive(CreateTrainPlaner driveTest)
             {
                 bool check = false;
+                string station;
                 while(check == false) {
                     
                     if(driveTest.trainSchedules[0].departureTime == timer.ToString())
                     {
-                        Console.WriteLine($"{driveTest.train.name} leaving station");
-                        Thread.Sleep(500);
+                        
+                        station = stationList.Where(p => p.id == driveTest.trainSchedules[0].stationId).ToList().Select(p => p.stationName).First();
+                        Console.WriteLine($"{driveTest.train.name} leaving {station}");
+                        Thread.Sleep(300);
+                    }
+                    if(driveTest.trainSchedules[1].arrivalTime == timer.ToString()) 
+                    {
+                        station = stationList.Where(p => p.id == driveTest.trainSchedules[1].stationId).ToList().Select(p => p.stationName).First();
+                        Console.WriteLine($"{driveTest.train.name} arrived to {station}");
+                        Thread.Sleep(300);
+
+                    }
+                    if(driveTest.trainSchedules[1].departureTime == timer.ToString())
+                    {
+                        station = stationList.Where(p => p.id == driveTest.trainSchedules[1].stationId).ToList().Select(p => p.stationName).First();
+                        Console.WriteLine($"{driveTest.train.name} leaving {station}");
+                        Thread.Sleep(300);
                     }
 
                     if (driveTest.trainSchedules[2].arrivalTime == timer.ToString())
                     {
-                        Console.WriteLine("Klar");
+                        station = stationList.Where(p => p.id == driveTest.trainSchedules[2].stationId).ToList().Select(p => p.stationName).First();
+                        Console.WriteLine($"{driveTest.train.name} arrived to its end station {station}");
                         check = true;
                     }
                 }
