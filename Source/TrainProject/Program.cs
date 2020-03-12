@@ -14,11 +14,8 @@ namespace TrainProject
         public static List<Schedule> scheduleList;
         public static List<Train> trainList;
         public static List<Station> stationList;
-        public static TrainPlaner trainPlaner;
-        public static CreateTrainPlaner createTrainPlaner;
-        public static Thread test;
         public static TimeSpan timer;
-        public static TimeSpan addMin;
+ 
 
         public static void Main(string[] args)
         {
@@ -36,14 +33,20 @@ namespace TrainProject
 
             var trainPlaner = new TrainPlaner(train1).FollowSchedule(scheduleList);
 
-            createTrainPlaner = new CreateTrainPlaner(trainPlaner);
-            TrainThread trainT = new TrainThread();
+            CreateTrainPlaner testTrainPlaner = new CreateTrainPlaner(trainPlaner);
+            testTrainPlaner.trainThread = new Thread(() => testTrainPlaner.Drive(testTrainPlaner));
 
-            addMin = TimeSpan.FromMinutes(1);
+            CreateTrainPlaner newTest = new CreateTrainPlaner(trainPlaner);
+            newTest.trainThread = new Thread(() => newTest.Drive(newTest));
+            newTest.trainThread.Start();
+            TimeSpan addMin = TimeSpan.FromMinutes(1);
             timer = new TimeSpan(10, 10, 00);
-
-            test = new Thread(new ThreadStart(trainT.Drive));
-            test.Start();
+            for(int i = 0; i< 50; i++)
+            {
+                Console.WriteLine(timer);
+                timer += addMin;
+                Thread.Sleep(200);
+            }    
         }
 
         public interface IControlRoom
@@ -75,11 +78,31 @@ namespace TrainProject
         {
             public Train train { get; }
             public List<Schedule> trainSchedules { get; }
+            public Thread trainThread;
 
             public CreateTrainPlaner(IControlRoom test)
             {
                 this.train = test.train;
                 this.trainSchedules = test.trainSchedules;
+            }
+
+            public void Drive(CreateTrainPlaner driveTest)
+            {
+                bool check = false;
+                while(check == false) {
+                    
+                    if(driveTest.trainSchedules[0].departureTime == timer.ToString())
+                    {
+                        Console.WriteLine($"{driveTest.train.name} leaving station");
+                        Thread.Sleep(500);
+                    }
+
+                    if (driveTest.trainSchedules[2].arrivalTime == timer.ToString())
+                    {
+                        Console.WriteLine("Klar");
+                        check = true;
+                    }
+                }
             }
         }
 
@@ -91,29 +114,6 @@ namespace TrainProject
         private class LevelCrossing
         {
             private bool open;
-        }
-    }
-
-    public class TrainThread : Program
-    {
-        public void Drive()
-        {
-            for (int i = 0; i < 200; i++)
-            {
-                Console.WriteLine(timer);
-                Thread.Sleep(250);
-                timer += addMin;
-
-                if (createTrainPlaner.trainSchedules[0].departureTime == timer.ToString())
-                {
-                    Console.WriteLine($"{createTrainPlaner.train.name} leaving station");
-                }
-
-                if (createTrainPlaner.trainSchedules[2].arrivalTime == timer.ToString())
-                {
-                    Console.WriteLine("Klar");
-                }
-            }
         }
     }
 }
