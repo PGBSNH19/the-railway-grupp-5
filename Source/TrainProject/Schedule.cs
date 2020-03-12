@@ -19,8 +19,8 @@ namespace TrainProject
 
             traindId = int.Parse(part[0]);
             stationId = int.Parse(part[1]);
-            departureTime = part[2];
-            arrivalTime = part[3];       
+            departureTime = part[2] + ":00";
+            arrivalTime = part[3] + ":00";       
         }
     }
 
