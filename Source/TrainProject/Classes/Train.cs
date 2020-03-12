@@ -21,7 +21,7 @@ namespace TrainProject
             operated = bool.Parse(convert[3]);
         }
 
-        public Train (List<Train> trainList, int check)
+        public Train(List<Train> trainList, int check)
         {
             foreach (var item in trainList)
             {
@@ -34,8 +34,6 @@ namespace TrainProject
                 }
             }
         }
-
-        
     }
 
     public class TrainList

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.IO;
 using System.Linq;
 using System.Threading;
 
@@ -30,11 +28,8 @@ namespace TrainProject
             TrainList promp = new TrainList();
             trainList = promp.InitAvailableTrain();
 
-
-
             StationList SList = new StationList();
             stationList = SList.InitAvailableStations();
-
 
             var train1 = new Train(trainList, 2);
             var train2 = new Train(trainList, 3);
@@ -49,15 +44,13 @@ namespace TrainProject
 
             test = new Thread(new ThreadStart(trainT.Drive));
             test.Start();
-            
-
-            
         }
 
         public interface IControlRoom
         {
             Train train { get; }
             List<Schedule> trainSchedules { get; set; }
+
             IControlRoom FollowSchedule(List<Schedule> schedules);
         }
 
@@ -65,16 +58,17 @@ namespace TrainProject
         {
             public Train train { get; }
             public List<Schedule> trainSchedules { get; set; }
+
             public TrainPlaner(Train train)
             {
                 this.train = train;
             }
+
             public IControlRoom FollowSchedule(List<Schedule> schedules)
             {
                 trainSchedules = schedules.Where(x => x.traindId == train.id).ToList();
                 return this;
             }
-
         }
 
         public class CreateTrainPlaner
@@ -88,16 +82,16 @@ namespace TrainProject
                 this.trainSchedules = test.trainSchedules;
             }
         }
-        class Switch
+
+        private class Switch
         {
-            bool turnRight;
+            private bool turnRight;
         }
 
-        class LevelCrossing
+        private class LevelCrossing
         {
-            bool open;
+            private bool open;
         }
-
     }
 
     public class TrainThread : Program
@@ -122,7 +116,4 @@ namespace TrainProject
             }
         }
     }
-
-
-
 }

@@ -10,8 +10,7 @@ namespace TrainProject
         public int traindId { get; }
         public int stationId { get; }
         public string departureTime { get; set; }
-        public string arrivalTime{ get;   }
-
+        public string arrivalTime { get; }
 
         public Schedule(string scheduleList)
         {
@@ -20,7 +19,7 @@ namespace TrainProject
             traindId = int.Parse(part[0]);
             stationId = int.Parse(part[1]);
             departureTime = part[2] + ":00";
-            arrivalTime = part[3] + ":00";       
+            arrivalTime = part[3] + ":00";
         }
     }
 

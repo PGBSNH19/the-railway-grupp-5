@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace TrainProject
 {
-   public class Passengers
+    public class Passengers
     {
-
         public int id { get; }
         public string name { get; }
 
@@ -16,9 +13,9 @@ namespace TrainProject
             string[] convert = passengerList.Split(",");
             id = int.Parse(convert[0]);
             name = convert[1];
-           
         }
     }
+
     public class PassengerList
     {
         public List<Passengers> InitAllPassengers()
@@ -35,4 +32,3 @@ namespace TrainProject
         }
     }
 }
-

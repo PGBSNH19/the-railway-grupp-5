@@ -21,7 +21,7 @@ namespace TrainProject
         }
     }
 
-    class StationList
+    internal class StationList
     {
         public List<Station> InitAvailableStations()
         {
@@ -34,7 +34,6 @@ namespace TrainProject
                 AllStations.Add(new Station(item));
             }
             return AllStations;
-
         }
     }
 }
