@@ -19,7 +19,27 @@ namespace TrainProject
 
         public static void Main(string[] args)
         {
+
+            CreateDatabase();
+
+            var trainPlaner1 = new TrainPlaner(trainList, 2).FollowSchedule(scheduleList);
+            var trainPlaner2 = new TrainPlaner(trainList, 3).FollowSchedule(scheduleList);
+
+            CreateTrainPlaner testTrainPlaner1 = new CreateTrainPlaner(trainPlaner1);
+            testTrainPlaner1.trainThread = new Thread(() => testTrainPlaner1.Drive(testTrainPlaner1));
+
+            CreateTrainPlaner testTrainPlaner2 = new CreateTrainPlaner(trainPlaner2);
+            testTrainPlaner2.trainThread = new Thread(() => testTrainPlaner2.Drive(testTrainPlaner2));
+           
+            testTrainPlaner2.trainThread.Start();
+            testTrainPlaner1.trainThread.Start();
             
+            StartTimer();
+            
+        }
+
+        public static void CreateDatabase() 
+        {
             ScheduleList p = new ScheduleList();
             scheduleList = p.InitAvailableSchedule();
 
@@ -28,29 +48,18 @@ namespace TrainProject
 
             StationList SList = new StationList();
             stationList = SList.InitAvailableStations();
+        }
 
-            var train1 = new Train(trainList, 2);
-            var train2 = new Train(trainList, 3);
-
-            var trainPlaner1 = new TrainPlaner(train1).FollowSchedule(scheduleList);
-            var trainPlaner2 = new TrainPlaner(train2).FollowSchedule(scheduleList);
-
-            CreateTrainPlaner testTrainPlaner1 = new CreateTrainPlaner(trainPlaner1);
-            testTrainPlaner1.trainThread = new Thread(() => testTrainPlaner1.Drive(testTrainPlaner1));
-
-            CreateTrainPlaner testTrainPlaner2 = new CreateTrainPlaner(trainPlaner2);
-            testTrainPlaner2.trainThread = new Thread(() => testTrainPlaner2.Drive(testTrainPlaner2));
-            testTrainPlaner2.trainThread.Start();
-            testTrainPlaner1.trainThread.Start();
-            
+        public static void StartTimer() 
+        {
             TimeSpan addMin = TimeSpan.FromMinutes(1);
             timer = new TimeSpan(10, 15, 00);
-            for(int i = 0; i< 62; i++)
+            for (int i = 0; i < 62; i++)
             {
                 Console.WriteLine(timer);
                 timer += addMin;
                 Thread.Sleep(200);
-            }    
+            }
         }
 
         public interface IControlRoom
@@ -66,9 +75,9 @@ namespace TrainProject
             public Train train { get; }
             public List<Schedule> trainSchedules { get; set; }
 
-            public TrainPlaner(Train train)
+            public TrainPlaner(List<Train> trainList, int check)
             {
-                this.train = train;
+                this.train = trainList.Where(p => p.id == check).ToList().First();
             }
 
             public IControlRoom FollowSchedule(List<Schedule> schedules)

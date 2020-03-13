@@ -7,7 +7,7 @@ namespace TrainProject
 {
     public class Train
     {
-        public int id { get; }
+        public int id { get; set; }
         public string name { get; }
         public int maxSpeed { get; }
         public bool operated { get; }
