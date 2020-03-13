@@ -3,14 +3,14 @@ using System.IO;
 
 namespace TrainProject
 {
-    public class Passengers
+    public class Passenger
     {
         public int id { get; }
         public string name { get; }
 
-        public Passengers(string passengerList)
+        public Passenger(string passengerList)
         {
-            string[] convert = passengerList.Split(",");
+            string[] convert = passengerList.Split(";");
             id = int.Parse(convert[0]);
             name = convert[1];
         }
@@ -18,14 +18,14 @@ namespace TrainProject
 
     public class PassengerList
     {
-        public List<Passengers> InitAllPassengers()
+        public List<Passenger> InitAllPassengers()
         {
-            List<Passengers> allPassengers = new List<Passengers>();
+            List<Passenger> allPassengers = new List<Passenger>();
             string[] passengers = File.ReadAllLines(Program.PassengersFilePath);
 
             foreach (string item in passengers)
             {
-                allPassengers.Add(new Passengers(item));
+                allPassengers.Add(new Passenger(item));
             }
 
             return allPassengers;
