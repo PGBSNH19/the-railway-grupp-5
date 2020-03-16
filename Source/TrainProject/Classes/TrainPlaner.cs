@@ -41,8 +41,7 @@ namespace TrainProject
         public IControlRoom CrossoverControll()
         {
             openCloseCrossover = new List<TimeSpan>();
-            double trainSpeed = 12 / (train.maxSpeed / 60);
-            double trainSpeed2 = 12 / (train.maxSpeed / 60.00);
+            double trainSpeed = 12 / (train.maxSpeed / 60.00);
             openCloseCrossover.Add(TimeSpan.Parse(trainSchedules[0].departureTime) + TimeSpan.FromMinutes(Math.Round(trainSpeed)));
             openCloseCrossover.Add(openCloseCrossover[0] + TimeSpan.FromMinutes(3));
             return this;

@@ -24,6 +24,7 @@ namespace TrainProject
         {
             bool check = false;
             string station;
+            
 
             while (check == false)
             {

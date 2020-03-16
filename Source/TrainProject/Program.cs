@@ -21,9 +21,9 @@ namespace TrainProject
         {
             CreateDatabase();
 
-            var trainPlaner1 = new TrainPlaner(trainList, 2).FollowSchedule(scheduleList).AddPassengers(passengerList);
+            var trainPlaner1 = new TrainPlaner(trainList, 2).FollowSchedule(scheduleList).AddPassengers(passengerList).CrossoverControll();
 
-            var trainPlaner2 = new TrainPlaner(trainList, 3).FollowSchedule(scheduleList).AddPassengers(passengerList);
+            var trainPlaner2 = new TrainPlaner(trainList, 3).FollowSchedule(scheduleList).AddPassengers(passengerList).CrossoverControll();
 
             CreateTrainPlaner testTrainPlaner1 = new CreateTrainPlaner(trainPlaner1);
             testTrainPlaner1.trainThread = new Thread(() => testTrainPlaner1.Drive(testTrainPlaner1));
@@ -61,6 +61,7 @@ namespace TrainProject
                 Console.WriteLine(timer);
                 timer += addMin;
                 Thread.Sleep(300);
+                Console.WriteLine("----------------");
             }
         }
 
@@ -71,8 +72,8 @@ namespace TrainProject
             List<Passenger> trainPassenger { get; set; }
 
             IControlRoom FollowSchedule(List<Schedule> schedules);
-
             IControlRoom AddPassengers(List<Passenger> passengers);
+            IControlRoom CrossoverControll();
         }
 
         private class Switch
