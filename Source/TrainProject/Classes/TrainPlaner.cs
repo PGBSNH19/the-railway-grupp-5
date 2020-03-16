@@ -8,8 +8,7 @@ namespace TrainProject
 {
     public class TrainPlaner : IControlRoom
     {
-        private List<TimeSpan> openCloseCrossover;
-
+        public List<TimeSpan> openCloseCrossover { get; set; }
         public Train train { get; }
         public List<Schedule> trainSchedules { get; set; }
         public List<Passenger> trainPassenger { get; set; }

@@ -11,6 +11,7 @@ namespace TrainProject
         public Train train { get; }
         public List<Schedule> trainSchedules { get; }
         public List<Passenger> passengers { get; set; }
+        public List<TimeSpan> crossOver { get; set; }
         public Thread trainThread;
 
         public CreateTrainPlaner(IControlRoom test)
@@ -18,6 +19,7 @@ namespace TrainProject
             this.train = test.train;
             this.trainSchedules = test.trainSchedules;
             this.passengers = test.trainPassenger;
+            this.crossOver = test.openCloseCrossover;
         }
 
         public void Drive(CreateTrainPlaner driveTest)
@@ -42,6 +44,16 @@ namespace TrainProject
                     int random = rnd.Next(0, passengers.Count);
                     Console.WriteLine($"Tåg1 {driveTest.train.name} arrived to {station} and {random} passenger(s) got off the train");
                     passengers.RemoveRange(0, random);
+                    Thread.Sleep(350);
+                }
+                if(driveTest.crossOver[0] == timer)
+                {
+                    Console.WriteLine($"{train.name} closing in to crossroad, closing gate");
+                    Thread.Sleep(350);
+                }
+                if (driveTest.crossOver[1] == timer)
+                {
+                    Console.WriteLine($"{train.name} passed by crossroad, open gate");
                     Thread.Sleep(350);
                 }
 

@@ -70,6 +70,7 @@ namespace TrainProject
             Train train { get; }
             List<Schedule> trainSchedules { get; set; }
             List<Passenger> trainPassenger { get; set; }
+            List<TimeSpan> openCloseCrossover { get; set; }
 
             IControlRoom FollowSchedule(List<Schedule> schedules);
             IControlRoom AddPassengers(List<Passenger> passengers);
