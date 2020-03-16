@@ -22,9 +22,11 @@ namespace TrainProject
         {
 
             CreateDatabase();
-           
+
             var trainPlaner1 = new TrainPlaner(trainList, 2).FollowSchedule(scheduleList).AddPassengers(passengerList).CrossoverControll();
+
             var trainPlaner2 = new TrainPlaner(trainList, 3).FollowSchedule(scheduleList).AddPassengers(passengerList).CrossoverControll();
+           
 
 
 
