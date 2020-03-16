@@ -21,19 +21,15 @@ namespace TrainProject
         {
             CreateDatabase();
 
-
             var trainPlaner1 = new TrainPlaner(trainList, 2).FollowSchedule(scheduleList).AddPassengers(passengerList);
 
             var trainPlaner2 = new TrainPlaner(trainList, 3).FollowSchedule(scheduleList).AddPassengers(passengerList);
 
-       
-
-
             CreateTrainPlaner testTrainPlaner1 = new CreateTrainPlaner(trainPlaner1);
-            testTrainPlaner1.trainThread = new Thread(() => testTrainPlaner1.DriveTrack1(testTrainPlaner1));
+            testTrainPlaner1.trainThread = new Thread(() => testTrainPlaner1.Drive(testTrainPlaner1));
 
             CreateTrainPlaner testTrainPlaner2 = new CreateTrainPlaner(trainPlaner2);
-            testTrainPlaner2.trainThread = new Thread(() => testTrainPlaner2.DriveTrack2(testTrainPlaner2));
+            testTrainPlaner2.trainThread = new Thread(() => testTrainPlaner2.Drive(testTrainPlaner2));
 
             testTrainPlaner2.trainThread.Start();
             testTrainPlaner1.trainThread.Start();
