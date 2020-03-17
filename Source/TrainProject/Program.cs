@@ -115,28 +115,6 @@ namespace TrainProject
             passengerList = createPassengerList.InitAllPassengers();
         }
 
-        public static void StartTimer(CreateTrainPlaner train1, CreateTrainPlaner train2)
-        {
-            TimeSpan addMin = TimeSpan.FromMinutes(1);
-            timer = new TimeSpan(10, 15, 00);
-            for (int i = 0; i < 62; i++)
-            {
-                Console.WriteLine(timer);
-                if (train1.trainSchedules[0].departureTime == timer.ToString())
-                {
-                    train1.trainThread = new Thread(() => train1.Drive(train1));
-                    train1.trainThread.Start();
-                }
-                if(train2.trainSchedules[0].departureTime == timer.ToString())
-                {
-                    train2.trainThread = new Thread(() => train2.Drive(train2));
-                    train2.trainThread.Start();
-                }
-                timer += addMin;
-                Thread.Sleep(300);
-                Console.WriteLine("----------------");
-            }
-        }
         //public static void StartTimer(CreateTrainPlaner train1, CreateTrainPlaner train2)
         //{
         //    string station;
@@ -160,7 +138,6 @@ namespace TrainProject
         //        Console.WriteLine("----------------");
         //    }
         //}
-
 
         public interface IControlRoom
         {
