@@ -50,11 +50,23 @@ namespace TrainProject
                         train1.trainThread.Start();
                         train1.trainThread.Join();
                     }
+                    if (train2.trainSchedules[0].departureTime == timer.ToString())
+                    {
+                        train2.trainThread = new Thread(() => train2.Drive1(train2));
+                        train2.trainThread.Start();
+                        train2.trainThread.Join();
+                    }
                     if (train1.trainSchedules[1].arrivalTime == timer.ToString())
                     {
                         train1.trainThread = new Thread(() => train1.Drive2(train1));
                         train1.trainThread.Start();
                         train1.trainThread.Join();
+                    }
+                    if (train2.trainSchedules[1].arrivalTime == timer.ToString())
+                    {
+                        train2.trainThread = new Thread(() => train2.Drive2(train2));
+                        train2.trainThread.Start();
+                        train2.trainThread.Join();
                     }
                     if (train1.trainSchedules[1].departureTime == timer.ToString())
                     {
@@ -62,17 +74,24 @@ namespace TrainProject
                         train1.trainThread.Start();
                         train1.trainThread.Join();
                     }
+                    if (train2.trainSchedules[1].departureTime == timer.ToString())
+                    {
+                        train2.trainThread = new Thread(() => train2.Drive3(train2));
+                        train2.trainThread.Start();
+                        train2.trainThread.Join();
+                    }
                     if (train1.trainSchedules[2].arrivalTime == timer.ToString())
                     {
                         train1.trainThread = new Thread(() => train1.Drive4(train1));
                         train1.trainThread.Start();
                         train1.trainThread.Join();
                     }
-                    //if (train2.trainSchedules[0].departureTime == timer.ToString())
-                    //{
-                    //    train2.trainThread = new Thread(() => train2.Drive(train2));
-                    //    train2.trainThread.Start();
-                    //}
+                    if (train2.trainSchedules[2].arrivalTime == timer.ToString())
+                    {
+                        train2.trainThread = new Thread(() => train2.Drive4(train2));
+                        train2.trainThread.Start();
+                        train2.trainThread.Join();
+                    }
 
                     timer += addMin;
                     Thread.Sleep(300);
