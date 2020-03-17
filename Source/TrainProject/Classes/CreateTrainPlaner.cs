@@ -73,7 +73,7 @@ namespace TrainProject
         {
             station = stationList.Where(p => p.id == driveTest.trainSchedules[0].stationId).ToList().Select(p => p.stationName).First();
             Console.WriteLine($"Tåg1 {driveTest.train.name} leaving {station} and {driveTest.passengers.Count} passanger(s) aboard the train");
-            Thread.Sleep(5000);
+            Thread.Sleep(2000);
         }
 
         public void Drive2(CreateTrainPlaner driveTest)
@@ -83,18 +83,21 @@ namespace TrainProject
             int random = rnd.Next(0, passengers.Count);
             Console.WriteLine($"Tåg1 {driveTest.train.name} arrived to {station} and {random} passenger(s) got off the train");
             passengers.RemoveRange(0, random);
+            Thread.Sleep(2000);
         }
 
         public void Drive3(CreateTrainPlaner driveTest)
         {
             station = stationList.Where(p => p.id == driveTest.trainSchedules[1].stationId).ToList().Select(p => p.stationName).First();
             Console.WriteLine($"Tåg1 {driveTest.train.name} leaving {station}");
+            Thread.Sleep(2000);
         }
 
         public void Drive4(CreateTrainPlaner driveTest)
         {
             station = stationList.Where(p => p.id == driveTest.trainSchedules[2].stationId).ToList().Select(p => p.stationName).First();
             Console.WriteLine($"Tåg1 {driveTest.train.name} arrived to its end station {station} and {passengers.Count} passenger(s) got off the train");
+            Thread.Sleep(2000);
         }
     }
 }
