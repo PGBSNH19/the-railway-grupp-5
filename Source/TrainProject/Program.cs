@@ -47,7 +47,6 @@ namespace TrainProject
 
         public static void StartTimer(CreateTrainPlaner train1, CreateTrainPlaner train2)
         {
-            string station;
             TimeSpan addMin = TimeSpan.FromMinutes(1);
             timer = new TimeSpan(10, 15, 00);
             for (int i = 0; i < 62; i++)
