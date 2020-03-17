@@ -28,7 +28,7 @@ namespace TrainProject
             string station;
             station = stationList.Where(p => p.id == driveTest.trainSchedules[0].stationId).ToList().Select(p => p.stationName).First();
             Console.WriteLine($"{driveTest.train.name} leaving {station} and {driveTest.passengers.Count} passanger(s) aboard the train");
-
+            CrossControll(this);
             while (check == false)
             {
                 if (driveTest.trainSchedules[1].arrivalTime == timer.ToString())
@@ -40,16 +40,7 @@ namespace TrainProject
                     passengers.RemoveRange(0, random);
                     Thread.Sleep(350);
                 }
-                if (driveTest.crossOver[0] == timer)
-                {
-                    Console.WriteLine($"{train.name} closing in to crossroad, closing gate");
-                    Thread.Sleep(350);
-                }
-                if (driveTest.crossOver[1] == timer)
-                {
-                    Console.WriteLine($"{train.name} passed by crossroad, open gate");
-                    Thread.Sleep(350);
-                }
+               
 
                 if (driveTest.trainSchedules[1].departureTime == timer.ToString())
                 {

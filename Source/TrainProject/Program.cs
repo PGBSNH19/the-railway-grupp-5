@@ -23,7 +23,7 @@ namespace TrainProject
             CreateDatabase();
 
             var trainPlaner1 = new TrainPlaner(trainList, 2).FollowSchedule(scheduleList).AddPassengers(passengerList).CrossoverControll();
-            var trainPlaner2 = new TrainPlaner(trainList, 2).FollowSchedule(scheduleList).AddPassengers(passengerList).CrossoverControll();
+            var trainPlaner2 = new TrainPlaner(trainList, 3).FollowSchedule(scheduleList).AddPassengers(passengerList).CrossoverControll();
 
             CreateTrainPlaner testTrainPlaner1 = new CreateTrainPlaner(trainPlaner1);
             CreateTrainPlaner testTrainPlaner2 = new CreateTrainPlaner(trainPlaner2);
@@ -111,6 +111,25 @@ namespace TrainProject
                 Thread.Sleep(2000);
                 Console.WriteLine(Thread.CurrentThread.Name);
             }
+        }
+        public static void CrossControll(CreateTrainPlaner train)
+        {
+            bool check = false;
+            while(check == false)
+            {
+                if (train.crossOver[0] == timer)
+                {
+                    Console.WriteLine($"{train.train.name} closing in to crossroad, closing gate");
+                    Thread.Sleep(350);
+                }
+                if (train.crossOver[1] == timer)
+                {
+                    Console.WriteLine($"{train.train.name} passed by crossroad, open gate");
+                    Thread.Sleep(350);
+                    check = true;
+                }
+            }
+
         }
 
         public static void CreateDatabase()
