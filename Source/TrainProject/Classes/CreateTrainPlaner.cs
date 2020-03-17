@@ -26,9 +26,9 @@ namespace TrainProject
         {
             bool check = false;
             string station;
-            station = stationList.Where(p => p.id == driveTest.trainSchedules[0].stationId).ToList().Select(p => p.stationName).First();
-            Console.WriteLine($"{driveTest.train.name} leaving {station} and {driveTest.passengers.Count} passanger(s) aboard the train");
+            StartEngine(this);
             CrossControll(this);
+            
             while (check == false)
             {
                 if (driveTest.trainSchedules[1].arrivalTime == timer.ToString())

@@ -129,7 +129,12 @@ namespace TrainProject
                     check = true;
                 }
             }
+        }
 
+        public static void StartEngine(CreateTrainPlaner train)
+        {
+            string station = stationList.Where(p => p.id == train.trainSchedules[0].stationId).ToList().Select(p => p.stationName).First();
+            Console.WriteLine($"{train.train.name} leaving {station} and {train.passengers.Count} passanger(s) aboard the train");
         }
 
         public static void CreateDatabase()
