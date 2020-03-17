@@ -101,16 +101,48 @@ namespace TrainProject
             //}).Start();
         }
 
-        public static void ControllTrack()
+        public static void ArrivingEndStation(CreateTrainPlaner train)
         {
-            
-            lock (_lock)
+            bool check = false;
+            string station;
+            while(check == false)
             {
-                
-                Console.WriteLine(Thread.CurrentThread.Name);
-                Thread.Sleep(2000);
-                Console.WriteLine(Thread.CurrentThread.Name);
+                if(TimeSpan.Parse(train.trainSchedules[2].arrivalTime).Subtract(TimeSpan.FromMinutes(3)) == timer)
+                {
+
+                }
             }
+        }
+        public static void ArrivingMidStation(CreateTrainPlaner train)
+        {
+            bool check = false;
+            string station;
+            while(check == false)
+            {
+                if (train.trainSchedules[1].arrivalTime == timer.ToString())
+                {
+                    lock (_lock)
+                    {
+                        station = stationList.Where(p => p.id == train.trainSchedules[1].stationId).ToList().Select(p => p.stationName).First();
+                        Random rnd = new Random();
+                        int random = rnd.Next(0, train.passengers.Count);
+                        Console.WriteLine($"{train.train.name} arrived to {station} and {random} passenger(s) got off the train");
+                        train.passengers.RemoveRange(0, random);
+                        while(check == false)
+                        {
+                            if (train.trainSchedules[1].departureTime == timer.ToString())
+                            {
+                                station = stationList.Where(p => p.id == train.trainSchedules[1].stationId).ToList().Select(p => p.stationName).First();
+                                Console.WriteLine($"{train.train.name} leaving {station}");
+                                check = true;
+                            }
+                        }
+                    }
+                }
+                    
+                
+            }
+            
         }
         public static void CrossControll(CreateTrainPlaner train)
         {
@@ -136,6 +168,8 @@ namespace TrainProject
             string station = stationList.Where(p => p.id == train.trainSchedules[0].stationId).ToList().Select(p => p.stationName).First();
             Console.WriteLine($"{train.train.name} leaving {station} and {train.passengers.Count} passanger(s) aboard the train");
         }
+
+        
 
         public static void CreateDatabase()
         {
