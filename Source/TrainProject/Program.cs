@@ -22,19 +22,12 @@ namespace TrainProject
             CreateDatabase();
 
             var trainPlaner1 = new TrainPlaner(trainList, 2).FollowSchedule(scheduleList).AddPassengers(passengerList).CrossoverControll();
-
             var trainPlaner2 = new TrainPlaner(trainList, 3).FollowSchedule(scheduleList).AddPassengers(passengerList).CrossoverControll();
 
             CreateTrainPlaner testTrainPlaner1 = new CreateTrainPlaner(trainPlaner1);
-            testTrainPlaner1.trainThread = new Thread(() => testTrainPlaner1.Drive(testTrainPlaner1));
-
             CreateTrainPlaner testTrainPlaner2 = new CreateTrainPlaner(trainPlaner2);
-            testTrainPlaner2.trainThread = new Thread(() => testTrainPlaner2.Drive(testTrainPlaner2));
 
-            testTrainPlaner2.trainThread.Start();
-            testTrainPlaner1.trainThread.Start();
-
-            StartTimer();
+            StartTimer(testTrainPlaner1, testTrainPlaner2);
         }
 
         public static void CreateDatabase()
@@ -52,13 +45,24 @@ namespace TrainProject
             passengerList = createPassengerList.InitAllPassengers();
         }
 
-        public static void StartTimer()
+        public static void StartTimer(CreateTrainPlaner train1, CreateTrainPlaner train2)
         {
+            string station;
             TimeSpan addMin = TimeSpan.FromMinutes(1);
             timer = new TimeSpan(10, 15, 00);
             for (int i = 0; i < 62; i++)
             {
                 Console.WriteLine(timer);
+                if (train1.trainSchedules[0].departureTime == timer.ToString())
+                {
+                    train1.trainThread = new Thread(() => train1.Drive(train1));
+                    train1.trainThread.Start();
+                }
+                if(train2.trainSchedules[0].departureTime == timer.ToString())
+                {
+                    train2.trainThread = new Thread(() => train2.Drive(train2));
+                    train2.trainThread.Start();
+                }
                 timer += addMin;
                 Thread.Sleep(300);
                 Console.WriteLine("----------------");

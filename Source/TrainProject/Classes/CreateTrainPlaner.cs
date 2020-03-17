@@ -26,23 +26,18 @@ namespace TrainProject
         {
             bool check = false;
             string station;
-            
+            station = stationList.Where(p => p.id == driveTest.trainSchedules[0].stationId).ToList().Select(p => p.stationName).First();
+            Console.WriteLine($"{driveTest.train.name} leaving {station} and {driveTest.passengers.Count} passanger(s) aboard the train");
 
             while (check == false)
             {
-                if (driveTest.trainSchedules[0].departureTime == timer.ToString())
-                {
-                    station = stationList.Where(p => p.id == driveTest.trainSchedules[0].stationId).ToList().Select(p => p.stationName).First();
-                    Console.WriteLine($"Tåg1 {driveTest.train.name} leaving {station} and {driveTest.passengers.Count} passanger(s) aboard the train");
-                    Thread.Sleep(350);
-                }
 
                 if (driveTest.trainSchedules[1].arrivalTime == timer.ToString())
                 {
                     station = stationList.Where(p => p.id == driveTest.trainSchedules[1].stationId).ToList().Select(p => p.stationName).First();
                     Random rnd = new Random();
                     int random = rnd.Next(0, passengers.Count);
-                    Console.WriteLine($"Tåg1 {driveTest.train.name} arrived to {station} and {random} passenger(s) got off the train");
+                    Console.WriteLine($"{driveTest.train.name} arrived to {station} and {random} passenger(s) got off the train");
                     passengers.RemoveRange(0, random);
                     Thread.Sleep(350);
                 }
