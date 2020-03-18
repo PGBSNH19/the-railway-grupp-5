@@ -107,12 +107,12 @@ namespace TrainProject
                 if (train.crossOver[0] == timer)
                 {
                     Console.WriteLine($"{train.train.name} closing in to crossroad, closing gate");
-                    Thread.Sleep(350);
+                    Thread.Sleep(250);
                 }
                 if (train.crossOver[1] == timer)
                 {
                     Console.WriteLine($"{train.train.name} passed by crossroad, open gate");
-                    Thread.Sleep(350);
+                    Thread.Sleep(250);
                     check = true;
                 }
             }
@@ -121,7 +121,7 @@ namespace TrainProject
         public static void StartEngine(CreateTrainPlaner train)
         {
             string station = stationList.Where(p => p.id == train.trainSchedules[0].stationId).ToList().Select(p => p.stationName).First();
-            Console.WriteLine($"{train.train.name} leaving {station} and {train.passengers.Count} passanger(s) aboard the train");
+            Console.WriteLine($"{train.train.name} leaving {station} and {train.passengers.Count} passanger(s) aboard the train, setting switch to right");
         }
 
         
@@ -162,7 +162,7 @@ namespace TrainProject
                     train2.trainThread.Start();
                 }
                 timer += addMin;
-                Thread.Sleep(300);
+                Thread.Sleep(200);
                 
             }
         }
